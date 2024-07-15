@@ -14,6 +14,7 @@ public class ClickableActions extends ElementActions {
     ClickableActions (final By locator) {
         super (locator);
     }
+
     ClickableActions (final WebElement ele) {
         super (ele);
     }
@@ -21,20 +22,21 @@ public class ClickableActions extends ElementActions {
     public static ClickableActions withMouse (final By locator) {
         return new ClickableActions (locator);
     }
+
     public static ClickableActions withMouse (final WebElement ele) {
         return new ClickableActions (ele);
     }
 
-
-    public static void click (final By locator) {
+    public void click () {
         LOGGER.traceEntry ();
-        find (locator, WaitStrategy.CLICKABLE).click ();
+        find (this.locator, WaitStrategy.VISIBLE).click ();
         LOGGER.traceExit ();
     }
-        public static void click (final WebElement ele) {
-            LOGGER.traceEntry ();
-            ele.click ();
-            LOGGER.traceExit ();
-        }
+
+    public void clickElement () {
+        LOGGER.traceEntry ();
+        this.ele.click ();
+        LOGGER.traceExit ();
     }
+}
 
