@@ -3,6 +3,7 @@ package action;
 import static action.DriverAction.withDriver;
 import static action.ElementFinder.find;
 import static com.google.common.truth.Truth.assertThat;
+import static java.util.Optional.ofNullable;
 import static org.apache.logging.log4j.LogManager.getLogger;
 
 import java.security.Key;
@@ -11,6 +12,7 @@ import com.google.common.truth.BooleanSubject;
 import com.google.common.truth.StringSubject;
 import enums.WaitStrategy;
 import exception.FrameworkError;
+import lombok.Getter;
 import org.apache.logging.log4j.Logger;
 import org.junit.Assert;
 import org.openqa.selenium.By;
@@ -18,10 +20,12 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.xml.sax.Locator;
 
+@Getter
 public class ElementActions {
     private static final Logger     LOGGER = getLogger ();
     protected            By         locator;
     protected            WebElement ele;
+    private              String     name;
 
     ElementActions (final By locator) {
         this.locator = locator;
@@ -74,5 +78,11 @@ public class ElementActions {
         LOGGER.traceEntry ();
         withDriver ().executeScript ("arguments[0].scrollIntoView(true);", find (this.locator, WaitStrategy.VISIBLE));
         LOGGER.traceExit ();
+    }
+
+    public String getAttribute (final String attribute) {
+        LOGGER.traceEntry ();
+        LOGGER.info ("Getting attribute: {} of element located by: {}", attribute, this.locator);
+        return LOGGER.traceExit (find (this.locator, WaitStrategy.VISIBLE).getAttribute (attribute));
     }
 }

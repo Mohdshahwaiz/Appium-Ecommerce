@@ -2,5 +2,6 @@ package enums;
 
 public enum WaitStrategy {
     CLICKABLE,
-    VISIBLE
+    VISIBLE,
+    ATTRIBUTE_TO_CHANGE
 }
