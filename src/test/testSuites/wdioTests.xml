@@ -1,0 +1,15 @@
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="Wdio SignUp" verbose="2" parallel="classes">
+    <test name="SignUP">
+        <parameter name="platformType" value="IOS"/>
+        <classes>
+            <class name="WdioAppTest.WdioTest">
+            <methods>
+                <include name="SignUp"/>
+                <include name="verifyErrorMessage"/>
+
+            </methods>
+            </class>
+        </classes>
+    </test>
+</suite>

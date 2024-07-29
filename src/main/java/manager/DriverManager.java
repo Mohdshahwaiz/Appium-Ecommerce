@@ -1,56 +1,49 @@
 package manager;
 
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.nio.file.Path;
-import java.time.Duration;
+import static java.time.Duration.ofSeconds;
+import static manager.DriverSession.getSession;
+import static org.apache.logging.log4j.LogManager.getLogger;
 
-import io.appium.java_client.android.AndroidDriver;
-import io.appium.java_client.android.options.UiAutomator2Options;
+import enums.PlatformType;
 import lombok.Data;
+import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 @Data
-public final class DriverManager {
-    private       WebDriver     driver;
-    public static DriverManager driverManager;
-    private       WebDriverWait wait;
+public class DriverManager {
+    private              WebDriverWait wait;
+    private static final Logger        LOGGER = getLogger ();
 
-    private DriverManager () {
+    private final PlatformType platformType;
+
+    public DriverManager () {
+        this.platformType = getSession ().getPlatformType ();
     }
 
-    public static DriverManager driverManager () {
-        if (driverManager == null) {
-            driverManager = new DriverManager ();
+    public synchronized void setupDriver () {
+        LOGGER.traceEntry ();
+        final IDriverManager driverManager = switch (this.platformType) {
+            case ANDROID -> new AndroidDriverManager ();
+            default -> new IOSDriverManager ();
+        };
+        driverManager.setupDriver ();
+        setDriverWaits();
+        LOGGER.traceExit ();
+    }
+
+    private void setDriverWaits () {
+        LOGGER.traceEntry ();
+        final var session = getSession ();
+        final var driver = session.getDriver ();
+        final var timeouts = driver.manage ()
+            .timeouts ();
+        timeouts.implicitlyWait (ofSeconds (10));
+        if (this.platformType == PlatformType.WEB) {
+            timeouts.pageLoadTimeout (ofSeconds (10));
+            timeouts.scriptTimeout (ofSeconds (10));
         }
-        return driverManager;
-    }
-
-    public static UiAutomator2Options getOptions () {
-        final String appPath = String.valueOf (
-            Path.of (System.getProperty ("user.dir"), "src", "test", "resources", "General-Store" + ".apk"));
-        final UiAutomator2Options options = new UiAutomator2Options ();
-        options.setAutomationName ("UiAutomator2");
-        options.setPlatformName ("Android");
-        options.setPlatformVersion ("14");
-        options.setDeviceName ("emulator-5554");
-        options.setApp (appPath);
-        return options;
-    }
-
-    public void createDriver () {
-        final URL url;
-        try {
-            url = new URL ("http://127.0.0.1:4723/");
-        } catch (final MalformedURLException e) {
-            throw new RuntimeException (e);
-        }
-        this.driver = new AndroidDriver (url, getOptions ());
-        wait = new WebDriverWait (this.driver, Duration.ofSeconds (60));
-    }
-
-    public void quit () {
-        this.driver.quit ();
+        session.setWait (new WebDriverWait (driver, ofSeconds (60)));
+        LOGGER.traceExit ();
     }
 }

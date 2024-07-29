@@ -1,13 +1,9 @@
 package generalStoreTests;
 
-import static action.ElementActions.onElement;
 import static enums.SwipeDirection.UP;
-import static manager.DriverManager.driverManager;
 import static pages.SignupScreen.signupPage;
 
-import java.sql.SQLOutput;
 import java.util.List;
-import java.util.Set;
 
 import action.ClickableActions;
 import action.CommonActions;
@@ -42,7 +38,7 @@ public class SignUpTest extends BaseTest {
                 .clickElement ();
             break;
         }
-        TextBoxActions.enterText (signupPage ().getName (), "shahwaiz");
+       // TextBoxActions.enterText (signupPage ().getName (), "shahwaiz");
         ClickableActions.withMouse (signupPage ().getFemaleRadio ())
             .click ();
         ClickableActions.withMouse (signupPage ().getLetsShopButton ())
@@ -78,31 +74,32 @@ public class SignUpTest extends BaseTest {
     @Test (dependsOnMethods = { "fillForm" })
     public void getTotalPrice () {
         final List<WebElement> products = ElementFinder.finds (signupPage ().getAddToCart (), WaitStrategy.VISIBLE);
-                for (int i = 0; i < products.size (); i++) {
-        ClickableActions.withMouse (products.get (i))
-            .clickElement ();
-    }
+        for (int i = 0; i < products.size (); i++) {
+            ClickableActions.withMouse (products.get (i))
+                .clickElement ();
+        }
         ClickableActions.withMouse (signupPage ().getCartButton ())
             .click ();
-        final List<WebElement> productPrices= ElementFinder.finds (signupPage ().getProductPrice (), WaitStrategy.VISIBLE);
-        final int count =productPrices.size ();
-        double sum=0;
+        final List<WebElement> productPrices = ElementFinder.finds (signupPage ().getProductPrice (),
+            WaitStrategy.VISIBLE);
+        final int count = productPrices.size ();
+        double sum = 0;
         for (int i = 0; i < count; i++) {
-            final String amountString=productPrices.get (i).getText ();
-           final double price= CommonActions.getFormattedAmount (amountString);
-          sum=sum+price;
-
+            final String amountString = productPrices.get (i)
+                .getText ();
+            final double price = CommonActions.getFormattedAmount (amountString);
+            sum = sum + price;
         }
-       final String expAmount= ElementActions.onElement (signupPage ().getTotalPurchaseAMount ()).getText ();
-
-        Assert.assertEquals ("$"+" "+sum,expAmount);
-        ClickableActions.withMouse (signupPage ().getSendCheckBox ()).click ();
-
-        ClickableActions.withMouse (signupPage ().getVisitWebsiteButton ()).click ();
-        final String contexts=WindowActions.onWindow ().getContextHandles ();
+        final String expAmount = ElementActions.onElement (signupPage ().getTotalPurchaseAMount ())
+            .getText ();
+        Assert.assertEquals ("$" + " " + sum, expAmount);
+        ClickableActions.withMouse (signupPage ().getSendCheckBox ())
+            .click ();
+        ClickableActions.withMouse (signupPage ().getVisitWebsiteButton ())
+            .click ();
+        final String contexts = WindowActions.onWindow ()
+            .getContextHandles ();
         System.out.println (contexts);
-
     }
-
 }
 

@@ -1,11 +1,8 @@
 package action;
 
 import static enums.Message.ELEMENT_NOT_FOUND;
-import static enums.WaitStrategy.ATTRIBUTE_TO_CHANGE;
 import static enums.WaitStrategy.CLICKABLE;
-import static java.text.MessageFormat.format;
-import static java.util.Objects.isNull;
-import static manager.DriverManager.driverManager;
+import static manager.DriverSession.getSession;
 import static org.apache.logging.log4j.LogManager.getLogger;
 import static org.openqa.selenium.support.ui.ExpectedConditions.attributeContains;
 import static org.openqa.selenium.support.ui.ExpectedConditions.attributeToBe;
@@ -49,7 +46,7 @@ public final class ElementFinder {
 
     public static List<WebElement> finds (final By locator, final WaitStrategy waitStrategy) {
         LOGGER.traceEntry ();
-        final var driver = driverManager ().getDriver ();
+        final var driver = getSession ().getDriver ();
         final List<WebElement> elements;
         waitForElement (locator, waitStrategy);
         elements = finds (driver, locator);
@@ -58,7 +55,7 @@ public final class ElementFinder {
 
     public static List<WebElement> finds (final By locator) {
         LOGGER.traceEntry ();
-        final var driver = driverManager ().getDriver ();
+        final var driver = getSession ().getDriver ();
         final List<WebElement> elements;
         elements = finds (driver, locator);
         return LOGGER.traceExit (elements);
@@ -75,7 +72,7 @@ public final class ElementFinder {
 
     public static void waitForElement (final By locator, final WaitStrategy waitStrategy) {
         LOGGER.traceEntry ();
-        final var wait = driverManager ().getWait ();
+        final var wait = getSession ().getWait ();
         if (waitStrategy == CLICKABLE)
             wait.until (elementToBeClickable (locator));
         else
@@ -85,7 +82,7 @@ public final class ElementFinder {
 
     public static void waitForAttributeToBe (final By locator, final String attribute, final String value) {
         LOGGER.traceEntry ();
-        final var wait = driverManager ().getWait ();
+        final var wait = getSession ().getWait ();
         wait.until (attributeToBe (locator, attribute, value));
         LOGGER.traceExit ();
     }

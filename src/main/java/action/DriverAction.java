@@ -1,6 +1,6 @@
 package action;
 
-import static manager.DriverManager.driverManager;
+import static manager.DriverSession.getSession;
 import static org.apache.logging.log4j.LogManager.getLogger;
 
 import org.apache.logging.log4j.Logger;
@@ -17,7 +17,7 @@ public class DriverAction {
     public void executeScript (final String script, final Object... args) {
         LOGGER.traceEntry ();
         LOGGER.info ("Executing script");
-        ((JavascriptExecutor) driverManager ().getDriver ()).executeScript (script, args);
+        ((JavascriptExecutor) getSession ().getDriver ()).executeScript (script, args);
         LOGGER.traceExit ();
     }
 }

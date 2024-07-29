@@ -3,7 +3,7 @@ package action;
 import static enums.Message.ELEMENT_NOT_FOUND;
 import static java.util.Collections.singletonList;
 import static java.util.Optional.ofNullable;
-import static manager.DriverManager.driverManager;
+import static manager.DriverSession.getSession;
 import static org.apache.logging.log4j.LogManager.getLogger;
 import static utils.ErrorHandler.throwError;
 
@@ -34,7 +34,7 @@ public class FingerActions extends ElementActions {
             .sourceElement (this.locator)
             .build ()
             .swipe ();
-        ((AppiumDriver) driverManager ().getDriver ()).perform (singletonList (swipeSequence));
+        ((AppiumDriver) getSession ().getDriver ()).perform (singletonList (swipeSequence));
     }
 
     public void swipeTill (final SwipeDirection direction) {

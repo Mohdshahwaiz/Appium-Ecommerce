@@ -1,8 +1,7 @@
 package action;
 
 import static action.CommonActions.getDriverAttribute;
-import static java.util.Optional.ofNullable;
-import static manager.DriverManager.driverManager;
+import static manager.DriverSession.getSession;
 import static org.apache.logging.log4j.LogManager.getLogger;
 
 import java.util.Set;
@@ -20,7 +19,7 @@ public class WindowActions {
 
     public Dimension viewportSize () {
         LOGGER.info ("Getting Viewport of the screen...");
-        return driverManager ().getDriver ()
+        return getSession ().getDriver ()
             .manage ()
             .window ()
             .getSize ();
@@ -29,11 +28,11 @@ public class WindowActions {
     public String currentContext () {
         LOGGER.traceEntry ();
         LOGGER.info ("Getting current context name...");
-        return getDriverAttribute(SupportsContextSwitching::getContext, null);
+        return getDriverAttribute (SupportsContextSwitching::getContext, null);
     }
 
-    public  String getContextHandles () {
+    public String getContextHandles () {
         LOGGER.info ("Getting Handles of the screen...");
-        return getDriverAttribute (SupportsContextSwitching::getContextHandles,null).toString ();
+        return getDriverAttribute (SupportsContextSwitching::getContextHandles, null).toString ();
     }
 }

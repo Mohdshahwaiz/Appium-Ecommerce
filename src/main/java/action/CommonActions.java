@@ -1,7 +1,7 @@
 package action;
 
 import static java.util.Objects.isNull;
-import static manager.DriverManager.driverManager;
+import static manager.DriverSession.getSession;
 
 import java.util.function.Function;
 
@@ -30,7 +30,7 @@ public class CommonActions {
 
     public static <D extends WebDriver, E> E getDriverAttribute (final Function<D, E> action, final E defaultValue) {
         try {
-            return action.apply ((D) driverManager ().getDriver ());
+            return action.apply ((D) getSession ().getDriver ());
         } catch (Exception e) {
             if (!isNull (defaultValue))
                 return defaultValue;

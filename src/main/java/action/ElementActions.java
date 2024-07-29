@@ -74,15 +74,20 @@ public class ElementActions {
         return LOGGER.traceExit (this.ele.getText ());
     }
 
-    public void scrollIntoView () {
-        LOGGER.traceEntry ();
-        withDriver ().executeScript ("arguments[0].scrollIntoView(true);", find (this.locator, WaitStrategy.VISIBLE));
-        LOGGER.traceExit ();
-    }
+//    public void scrollIntoView () {
+//        LOGGER.traceEntry ();
+//        withDriver ().executeScript ("arguments[0].scrollIntoView(true);", find (this.locator, WaitStrategy.VISIBLE));
+//        LOGGER.traceExit ();
+//    }
 
     public String getAttribute (final String attribute) {
         LOGGER.traceEntry ();
         LOGGER.info ("Getting attribute: {} of element located by: {}", attribute, this.locator);
         return LOGGER.traceExit (find (this.locator, WaitStrategy.VISIBLE).getAttribute (attribute));
+    }
+    public StringSubject verifyText () {
+        LOGGER.traceEntry ();
+        LOGGER.traceExit ();
+        return assertThat (getText ().trim ());
     }
 }
