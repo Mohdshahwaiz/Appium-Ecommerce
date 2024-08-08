@@ -3,12 +3,9 @@
     <test name="SignUP">
         <parameter name="platformType" value="IOS"/>
         <classes>
-            <class name="WdioAppTest.WdioTest">
-            <methods>
-                <include name="SignUp"/>
-                <include name="verifyErrorMessage"/>
 
-            </methods>
+            <class name="WdioAppTest.WdioTest">
+
             </class>
         </classes>
     </test>

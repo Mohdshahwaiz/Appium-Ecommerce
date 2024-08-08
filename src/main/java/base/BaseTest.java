@@ -20,25 +20,26 @@ public class BaseTest {
     public void setUpConfiguration () {
     }
 
-    @BeforeTest
-    @Parameters ({ "platformType" })
-    public void setupDriver (final PlatformType platformType) {
+//    @BeforeTest
+//    @Parameters ({ "platformType" })
+//    public void setupDriver (final PlatformType platformType) {
+//        createSession (platformType);
+//    }
+    @BeforeMethod
+        @Parameters({ "platformType" })
+    public void setDriver(final PlatformType platformType){
         createSession (platformType);
     }
-//    @BeforeMethod
-//    public void setDriver(final PlatformType platformType){
-//
-//    }
 
-    @AfterTest
-    public void tearDownDriver () {
-        getSession ().getDriver ().quit ();
-    }
-//    @AfterMethod
-//    public void tearDownDriverTest(){
-//        getSession ().getDriver ().close ();
-//
+//    @AfterClass
+//    public void tearDownDriver () {
+//        getSession ().getDriver ().quit ();
 //    }
+    @AfterMethod
+    public void tearDownDriverTest(){
+        getSession ().getDriver ().quit ();
+
+    }
 
     @AfterSuite
     public void tearDownConfig () {

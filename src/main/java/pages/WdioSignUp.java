@@ -18,5 +18,7 @@ public class WdioSignUp {
     private final By confirmPassword=By.xpath ("//XCUIElementTypeSecureTextField[@name='input-repeat-password']");
     private final By signUpFormButton=By.xpath ("(//XCUIElementTypeOther[@name='SIGN UP'])[2]");
     private final By errorMessage=By.xpath ("//XCUIElementTypeStaticText[@name='Please enter at least 8 characters']");
+    private final By successfullyMessage=By.id ("You successfully signed up!");
+
 
 }

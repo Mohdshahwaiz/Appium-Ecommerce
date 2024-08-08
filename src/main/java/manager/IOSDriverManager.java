@@ -24,8 +24,9 @@ public class IOSDriverManager implements IDriverManager {
         options.setPlatformName ("iOS");
         options.setPlatformVersion ("17.4");
         options.setDeviceName ("iPhone 15 Pro");
-        options.setCapability ("noReset","true");
+        options.setCapability ("noReset","false");
         options.setApp (appPath);
+        //options.setCapability ("fullReset",true);
         return options;
     }
 
